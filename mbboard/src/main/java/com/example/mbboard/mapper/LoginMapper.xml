@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mbboard.mapper.LoginMapper">
+	<select id="login" parameterType="com.example.mbboard.dto.Member"
+						resultType="com.example.mbboard.dto.Member">
+			SELECT
+				member_data AS memberData, member_sub AS memberSub, member_position memberPosition, member_no memberNo, member_id memberId, member_role memberRole
+			FROM member
+			WHERE member_id = #{memberId}
+			AND member_pw = #{memberPw}
+	</select>
+	
+	<update id="update" parameterType="com.example.mbboard.dto.Member">
+			UPDATE member
+		    SET member_pw = #{newPassword}
+		    WHERE member_id = #{memberId}
+	</update>
+	
+	<select id="findAllMembers" resultType="com.example.mbboard.dto.Member">
+	    SELECT member_id AS memberId,
+	           member_role AS memberRole,
+	           member_position AS memberPosition, 
+	           member_data AS memberData, 
+	           member_no AS memberNo, 
+	           member_sub AS memberSub
+	    FROM member
+	    ORDER BY memberNo asc
+	</select>
+
+	<update id="updateRole" parameterType="com.example.mbboard.dto.Member">
+	    UPDATE member
+	    SET member_role = #{memberRole},  
+       	    member_position = #{memberPosition}, 
+       	    member_sub = #{memberSub}
+	    WHERE member_id = #{memberId}
+	</update>
+	
+	<insert id="insertMember" parameterType="com.example.mbboard.dto.Member">
+    	INSERT INTO member (member_no, member_id, member_pw, member_role, member_position)
+    	VALUES (#{memberNo}, #{memberId}, #{memberPw}, #{memberRole}, #{memberPosition})
+	</insert>
+	
+	<delete id="deleteMember" parameterType="string">
+	    DELETE FROM member WHERE member_Id = #{memberId}
+	</delete>
+	
+	<select id="findMatchMembers" resultType="com.example.mbboard.dto.Member">
+	    SELECT  member_no AS memberNo,
+        member_id AS memberId,
+        member_data AS memberData,
+        member_position AS memberPosition,
+        member_role AS memberRole,
+        member_sub AS memberSub
+	    FROM member
+	    WHERE member_sub = 'MATCH'
+	    ORDER BY FIELD(member_position, 'FW', 'MF', 'DF', 'GK')
+	</select>
+</mapper>

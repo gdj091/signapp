@@ -121,7 +121,7 @@
 	<!-- 검색어 없는 경우: 페이지 번호만 포함한 링크 생성 -->
 	<div>
 	전체 페이지 목록
-	<br>
+		<br>
 	    <c:forEach var="i" begin="1" end="${page.lastPage}">
 		    <c:choose>
 		        <c:when test="${not empty page.searchWord}">

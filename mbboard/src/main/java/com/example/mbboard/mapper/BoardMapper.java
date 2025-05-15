@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.example.mbboard.dto.Board;
 import com.example.mbboard.dto.Page;
 
-@Mapper
+@Mapper // -> @component 구현클래스를 자동으로 생성 ex) @component BoardMapper_class -> 객체생성 bean등록
 public interface BoardMapper {
 	
 	List<Board> selectBoardListByPage(Page page);
