@@ -81,6 +81,7 @@ input[type="text"], input[type="password"], select {
 	<h4>감독 : ${loginMember.memberId}</h4>
 	<a href="/admin/match">선발명단 조회</a>
 	
+	<!-- 선발명단 11명까지로 제한 -->
 	<c:set var="matchCount" value="0" />
 		<c:forEach var="m" items="${memberList}">
 			  <c:if test="${m.memberSub eq 'MATCH'}">
@@ -104,7 +105,7 @@ input[type="text"], input[type="password"], select {
 	    	  											alert('선수는 포지션에 COACH를 선택할 수 없습니다.');
 				     									 return false;
 				     						 			}else if(this.memberRole.value == 'ADMIN' 
-		     											 		||this.memberPosition.value == 'ADMIN'){
+		     											 		||this.memberPosition.value == 'COACH'){
 				     						 				 return confirm('은퇴 후 코치로 전향시키겠습니까?');
 				     						 			}
 	      												 return confirm('정말 변경하시겠습니까?');">

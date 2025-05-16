@@ -9,14 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.mbboard.dto.ConnectCount;
 import com.example.mbboard.dto.Member;
 import com.example.mbboard.service.ILoginServic;
+import com.example.mbboard.service.IRootService;
 
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
+
 	@Autowired ILoginServic loginService;
+	@Autowired IRootService rootService;
+
 	
 	@GetMapping("/member/memberHome")
 	public String memberHome() {
@@ -53,6 +58,13 @@ public class LoginController {
 		Member loginMember = loginService.login(paramMember);
 		if(loginMember != null) {
 			session.setAttribute("loginMember", loginMember);
+			ConnectCount cc =new ConnectCount();
+			cc.setMemberRole(loginMember.getMemberRole());
+			if(rootService.getConnectDateByKey(cc) == null) {
+				rootService.addConnectCount(cc); // 오늘날짜 loginMember.getMemberRole()로 1행을 추가 카운터 1
+			}else {
+				rootService.modifyConnectCount(cc);
+			}
 			return "/member/memberHome";
 		}else {
 	        return "redirect:/login?error=1"; // 실패 시 다시 로그인 페이지
