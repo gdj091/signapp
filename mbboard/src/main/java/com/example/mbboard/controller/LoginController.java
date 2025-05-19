@@ -14,14 +14,56 @@ import com.example.mbboard.dto.Member;
 import com.example.mbboard.service.ILoginServic;
 import com.example.mbboard.service.IRootService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class LoginController {
+
+    private final BoardController boardController;
 
 	@Autowired ILoginServic loginService;
 	@Autowired IRootService rootService;
 
+    LoginController(BoardController boardController) {
+        this.boardController = boardController;
+    }
+    
+    @GetMapping("/rechangeMemberPw")
+    public String rechangeMemberPwForm() {
+        return "/rechangeMemberPw"; // 비밀번호 재설정 입력 폼
+    }
+    
+    @PostMapping("/rechangeMemberPw")
+    public String rechangeMemberPw(Member member, Model model) {
+        int result = loginService.rechangeMemberPw(member);
+        
+        if (result == 1) {
+            // 비밀번호 재설정 성공
+            return "redirect:/login";
+        } else {
+            // 실패 시 에러 메시지 전달 후 다시 폼으로
+            model.addAttribute("error", "입력한 현재 비밀번호가 맞지 않거나 시간이 초과되었습니다.");
+            return "/rechangeMemberPw";
+        }
+    }
+    
+    @GetMapping("/findMemberPw")
+    public String findMemberPw() {
+    	return "findMemberPw";
+    }
+    
+    @PostMapping("/findMemberPw")
+    public String findMemberPw(Member member) {
+    	// 비밀번호를 변경
+    	loginService.changeMemberPwByAdmin(member);
+    	// 분실 비밀번호 변경페이지로 redirect
+		return "rechangeMemberPw";
+    }
+    
 	
 	@GetMapping("/member/memberHome")
 	public String memberHome() {
@@ -54,9 +96,21 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public String login(HttpSession session, Member paramMember) {
+	public String login(HttpSession session, Member paramMember, HttpServletResponse response) {
 		Member loginMember = loginService.login(paramMember);
 		if(loginMember != null) {
+			
+			log.info(paramMember.toString());
+			
+			// 쿠키에도 로그인에 성공한 ID만 저장
+			if(paramMember.getSaveIdCk() != null) {
+				Cookie c = new Cookie("saveId", paramMember.getMemberId());
+				response.addCookie(c);
+			} else {
+				Cookie c = new Cookie("saveId", "");
+				response.addCookie(c);
+			}
+			
 			session.setAttribute("loginMember", loginMember);
 			ConnectCount cc =new ConnectCount();
 			cc.setMemberRole(loginMember.getMemberRole());

@@ -12,4 +12,8 @@ public class Member {
 	private String memberRole;
 	private String memberPosition;
 	private String newPassword;
+	private String saveIdCk;
+	private String email;
+	private String pwcktime;
+	private String reMemberPw;
 }

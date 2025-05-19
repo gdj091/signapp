@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.mbboard.dto.Member;
 
 public interface ILoginServic {
+	void changeMemberPwByAdmin(Member member);
 	Member login(Member paramMember);
 	int update(Member paramMember);
 	List<Member> findAllMembers();
@@ -12,4 +13,5 @@ public interface ILoginServic {
 	int insertMember(Member member);
 	int deleteMember(String memberId);
 	List<Member> findMatchMembers();
+	int rechangeMemberPw(Member member);
 }

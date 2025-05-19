@@ -15,4 +15,6 @@ public interface LoginMapper {
 	int insertMember(Member member);
 	int deleteMember(String memberId);
 	List<Member> findMatchMembers();
+	int updateMemberPwByAdmin(Member member);
+	int rechangeMemberPw(Member member);
 }

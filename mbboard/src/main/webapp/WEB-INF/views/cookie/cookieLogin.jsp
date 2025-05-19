@@ -77,9 +77,8 @@ input[type="text"], input[type="password"], select {
 </style>
 </head>
 <body>
-	<c:if test="${loginMember == null}">
 		<!-- 로그인이 안되어있다면 -->
-		<form method="post" action="/login">
+		<form method="post" action="/cookieLogin">
 			<div>
 				<h3>선수/코치 이름:</h3>
 				<div>
@@ -91,22 +90,5 @@ input[type="text"], input[type="password"], select {
 				<div><button type="submit">로그인</button></div>
 			</div>
 		</form>
-	</c:if>
-	
-	<c:if test="${loginMember != null}">
-	<!-- 로그인 되어 있다면 -->
-		<h3>
-			${loginMember.memberId}님 <a href="/member/memberHome">선수정보</a>로 이동
-		</h3>
-		<div>
-			<a href="/logout">로그아웃</a>
-		</div>
-		<div><a href="/findMemberPw">비밀번호찾기</a></div>
-	</c:if>
-	
-	<!-- 로그인실패시 -->
-	<c:if test="${param.error == '1'}">
-    	<div style="color: red;">아이디 또는 비밀번호가 일치하지 않습니다.</div>
-	</c:if>
 </body>
 </html>

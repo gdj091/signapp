@@ -83,6 +83,7 @@ input[type="text"], input[type="password"], select {
 			<div><a href="/logout">로그아웃</a></div>
 			<div><a href="/member/info">선수 상세보기</a></div>
 		<br>
+		<div><a href="/findMemberPw">비밀번호찾기</a></div>
 		<c:if test="${loginMember.memberRole == 'ADMIN'}">
 		    <a href="/admin/adminHome">선수단 관리로 이동</a>
 		</c:if>
