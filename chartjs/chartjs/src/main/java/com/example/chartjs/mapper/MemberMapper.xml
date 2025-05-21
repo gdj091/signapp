@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.chartjs.mapper.MemberMapper">
+	<select id="countPwHistory" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM pw_history
+	    WHERE id = #{id} AND pw = #{pw}
+	</select>
+	
+	<insert id="insertPwHistory">
+	    INSERT INTO pw_history (id, pw, change_date)
+	    VALUES (#{id}, #{pw}, NOW())
+	</insert>
+	
+	<update id="updateMemberPassword">
+	    UPDATE member SET pw = #{pw}
+	    WHERE id = #{id}
+	</update>
+
+	<select id="login" resultType="com.example.chartjs.dto.Member">
+	    SELECT * 
+	    FROM member
+	    WHERE id = #{id} AND pw = #{pw}
+	</select>
+	
+	<insert id="insertLoginHistory">
+	    INSERT INTO login_history (id) VALUES (#{id})
+	</insert>
+	
+	<select id="findLoginHistoryById" parameterType="string" resultType="com.example.chartjs.dto.LoginHistory">
+	    SELECT no, id, logindate
+	    FROM login_history
+	    WHERE id = #{id}
+	    ORDER BY logindate DESC
+	</select>
+	
+	<select id="findInactiveMembers" resultType="string">
+	    SELECT id FROM member
+	    WHERE id NOT IN (
+	        SELECT DISTINCT id FROM login_history
+	        WHERE logindate >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
+	    )
+	</select>
+	
+	<update id="updateMemberActive">
+	    UPDATE member SET active = 'OFF' WHERE id = #{id}
+	</update>
+	
+	<select id="findEmailById" resultType="string">
+	    SELECT email FROM member WHERE id = #{id}
+	</select>
+	
+	<delete id="deleteOldLoginHistory">
+	    DELETE FROM login_history
+	    WHERE logindate &lt; DATE_SUB(NOW(), INTERVAL 1 MONTH)
+	</delete>
+</mapper>

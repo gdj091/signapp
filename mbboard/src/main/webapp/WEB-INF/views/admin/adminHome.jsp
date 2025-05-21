@@ -74,6 +74,19 @@ input[type="text"], input[type="password"], select {
   padding: 6px;
   border-radius: 4px;
 }
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  background-image: url('https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 10;
+}
 </style>
 </head>
 <body>
