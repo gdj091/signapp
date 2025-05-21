@@ -20,4 +20,6 @@ public interface MemberMapper {
 	Member login(Member member);
 	List<LoginHistory> findLoginHistoryById(String id);
 	void deleteOldLoginHistory();
+	List<String> findAllMemberIds();
+	void deleteOldPwHistory(String id);
 }
