@@ -16,7 +16,7 @@ ${loginInfo.name}님
 			<td><a href="">결제1</a></td><!-- Level 3 -->
 			<td><a href="/signLevel3">결제2</a></td><!-- Level 2 -->
 		</tr>
-	</table>
+	</table>		
 	
 	<div>
 		문서내용 <!-- Level 1 -->
