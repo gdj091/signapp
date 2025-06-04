@@ -19,14 +19,14 @@ public class MySchedule {
     private final MemberMapper mapper;
 
     // 매 1분마다 실행
-    @Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 1 1 1 1 ?")
     public void cleanOldPwHistory() {
         System.out.println("비밀번호 이력 정리 스케줄러 실행됨");
 
         List<String> ids = mapper.findAllMemberIds();
         for (String id : ids) {
             System.out.println("정리 대상 ID: " + id);
-            mapper.deleteOldPwHistory(id); // ⚠️ 실제로 이 구문이 실행되는지 로그 확인
+            mapper.deleteOldPwHistory(id); // 실제로 이 구문이 실행되는지 로그 확인
         }
     }
 }

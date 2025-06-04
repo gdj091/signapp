@@ -6,7 +6,7 @@
 	    WHERE id = #{id}
 	      AND no NOT IN (
 	        SELECT no FROM (
-	            SELECT no
+            	SELECT no
 	            FROM pw_history
 	            WHERE id = #{id}
 	            ORDER BY change_date DESC
